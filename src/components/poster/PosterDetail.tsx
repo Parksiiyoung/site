@@ -2,14 +2,11 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import type { Poster, SupportedLocale } from '@/types';
-import { RelatedWorks } from './RelatedWorks';
+import type { Poster } from '@/types';
 import { EASE_OUT_EXPO } from '@/lib/motion';
 
 interface PosterDetailProps {
   poster: Poster;
-  relatedPosters: Poster[];
-  locale: SupportedLocale;
 }
 
 const imageVariants = {
@@ -22,7 +19,7 @@ const imageVariants = {
   },
 };
 
-export function PosterDetail({ poster, relatedPosters, locale }: PosterDetailProps) {
+export function PosterDetail({ poster }: PosterDetailProps) {
   const mainImage = poster.images[0];
   if (!mainImage) return null;
 
@@ -100,17 +97,6 @@ export function PosterDetail({ poster, relatedPosters, locale }: PosterDetailPro
         </div>
       </motion.div>
 
-      {/* Related works */}
-      {relatedPosters.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.5, ease: EASE_OUT_EXPO }}
-          className="mt-[var(--space-2xl)]"
-        >
-          <RelatedWorks posters={relatedPosters} locale={locale} />
-        </motion.div>
-      )}
     </div>
   );
 }

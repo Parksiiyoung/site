@@ -93,7 +93,7 @@ export const menuLabels: Record<string, Record<string, Record<SupportedLocale, s
   },
   designer: {
     everyone: { en: 'everyone', ko: '모두', ja: '全員' },
-    Bitnaneun: { en: 'Bin-na-nun', ko: '빛나는', ja: 'ビンナヌン' },
+    Bitnaneun: { en: 'Bin-na-nun', ko: 'Bin-na-nun', ja: 'Bin-na-nun' },
   },
 };
 

@@ -10,11 +10,10 @@ import type { Poster, SupportedLocale, ShareTarget } from '@/types';
 
 interface PosterDetailPageProps {
   poster: Poster;
-  relatedPosters: Poster[];
   locale: SupportedLocale;
 }
 
-export function PosterDetailPage({ poster, relatedPosters, locale }: PosterDetailPageProps) {
+export function PosterDetailPage({ poster, locale }: PosterDetailPageProps) {
   const scrollToTop = useCallback(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
@@ -47,8 +46,6 @@ export function PosterDetailPage({ poster, relatedPosters, locale }: PosterDetai
     >
       <PosterDetail
         poster={poster}
-        relatedPosters={relatedPosters}
-        locale={locale}
       />
     </SentencePageFrame>
   );

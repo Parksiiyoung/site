@@ -53,16 +53,10 @@ export default async function PosterPage({
   const poster = mockPosters.find((p) => p.slug === slug);
   if (!poster) notFound();
 
-  // Related posters: same category, exclude current
-  const related = mockPosters
-    .filter((p) => p.category === poster.category && p.id !== poster.id)
-    .slice(0, 4);
-
   return (
     <Suspense fallback={<div className="min-h-screen" />}>
       <PosterDetailPage
         poster={poster}
-        relatedPosters={related}
         locale={locale as SupportedLocale}
       />
     </Suspense>
