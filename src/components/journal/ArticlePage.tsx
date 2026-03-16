@@ -4,23 +4,23 @@ import { useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SentencePageFrame } from '@/components/layout/SentencePageFrame';
+import { getPathLocale } from '@/lib/i18n/runtime';
 import { ArticleView } from './ArticleView';
-import type { ArticleFull, SupportedLocale } from '@/types';
+import type { ArticleFull } from '@/types';
 
 interface ArticlePageProps {
   article: ArticleFull;
-  locale: SupportedLocale;
 }
 
-export function ArticlePage({ article, locale }: ArticlePageProps) {
+export function ArticlePage({ article }: ArticlePageProps) {
   const pathname = usePathname();
-  const currentLocale = pathname.split('/')[1] || 'en';
+  const currentLocale = getPathLocale(pathname);
 
   const scrollToTop = useCallback(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  const backLabel = locale === 'ko' ? '저널로 돌아가기' : locale === 'ja' ? 'ジャーナルに戻る' : 'Back to journal';
+  const backLabel = 'Back to journal';
 
   return (
     <SentencePageFrame

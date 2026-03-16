@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { getPathLocale } from '@/lib/i18n/runtime';
 import { EASE_OUT_EXPO } from '@/lib/motion';
 import type { JournalIssue } from '@/types';
 
@@ -20,7 +21,7 @@ function formatDate(dateString: string): string {
 
 export function IssueCard({ issue, articleCount, priority = false }: IssueCardProps) {
   const pathname = usePathname();
-  const locale = pathname.split('/')[1] || 'en';
+  const locale = getPathLocale(pathname);
   const issueNumber = String(issue.number).padStart(2, '0');
 
   return (

@@ -2,28 +2,15 @@ import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
-import { Inter, Noto_Sans_KR, Noto_Sans_JP, Sofia_Sans_Extra_Condensed } from 'next/font/google';
+import { Inter, Sofia_Sans_Extra_Condensed } from 'next/font/google';
 import { locales } from '@/lib/i18n/config';
+import { resolveLocale } from '@/lib/i18n/runtime';
 import { PageTransition } from '@/components/ui/PageTransition';
 import '../globals.css';
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
-  display: 'swap',
-});
-
-const notoSansKR = Noto_Sans_KR({
-  subsets: ['latin'],
-  variable: '--font-noto-kr',
-  weight: ['400', '500', '700'],
-  display: 'swap',
-});
-
-const notoSansJP = Noto_Sans_JP({
-  subsets: ['latin'],
-  variable: '--font-noto-jp',
-  weight: ['400', '500', '700'],
   display: 'swap',
 });
 
@@ -36,14 +23,14 @@ const sofiaSansExtraCondensed = Sofia_Sans_Extra_Condensed({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Bitnaneun — 빛나는',
+    default: 'Bitnaneun',
     template: '%s | Bitnaneun',
   },
   description: "We've been making posters since May 2006. A Korean movie poster design studio.",
-  keywords: ['movie poster', 'poster design', 'Korean design', '빛나는', 'bitnaneun', 'film poster'],
+  keywords: ['movie poster', 'poster design', 'Korean design', 'bitnaneun', 'film poster'],
   authors: [{ name: 'Bitnaneun Studio' }],
   openGraph: {
-    siteName: 'Bitnaneun — 빛나는',
+    siteName: 'Bitnaneun',
     type: 'website',
   },
 };
@@ -60,7 +47,8 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const headlineVar = '--font-headline' as const;
-  const { locale } = await params;
+  const { locale: routeLocale } = await params;
+  const locale = resolveLocale(routeLocale);
   setRequestLocale(locale);
   const messages = await getMessages();
   const htmlStyle = {
@@ -70,7 +58,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${inter.variable} ${notoSansKR.variable} ${notoSansJP.variable} ${sofiaSansExtraCondensed.variable}`}
+      className={`${inter.variable} ${sofiaSansExtraCondensed.variable}`}
       style={htmlStyle}
     >
       <body className="bg-[var(--color-bg)] text-[var(--color-text)] antialiased">

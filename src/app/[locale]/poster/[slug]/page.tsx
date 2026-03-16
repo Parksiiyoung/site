@@ -4,14 +4,15 @@ import { setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
 import { mockPosters } from '@/lib/mock/posters';
 import { PosterDetailPage } from '@/components/poster/PosterDetailPage';
-import type { SupportedLocale } from '@/types';
+import { resolveLocale } from '@/lib/i18n/runtime';
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { locale, slug } = await params;
+  const { locale: routeLocale, slug } = await params;
+  const locale = resolveLocale(routeLocale);
   const poster = mockPosters.find((p) => p.slug === slug);
   if (!poster) return {};
 
@@ -25,7 +26,7 @@ export async function generateMetadata({
       images: image
         ? [{ url: image.url, width: image.width, height: image.height, alt: image.alt }]
         : [],
-      locale: locale,
+      locale,
       type: 'article',
     },
     twitter: {
@@ -47,7 +48,8 @@ export default async function PosterPage({
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { locale, slug } = await params;
+  const { locale: routeLocale, slug } = await params;
+  const locale = resolveLocale(routeLocale);
   setRequestLocale(locale);
 
   const poster = mockPosters.find((p) => p.slug === slug);
@@ -57,7 +59,7 @@ export default async function PosterPage({
     <Suspense fallback={<div className="min-h-screen" />}>
       <PosterDetailPage
         poster={poster}
-        locale={locale as SupportedLocale}
+        locale={locale}
       />
     </Suspense>
   );

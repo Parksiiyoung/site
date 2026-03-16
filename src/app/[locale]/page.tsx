@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import type { SupportedLocale } from '@/types';
+import { resolveLocale } from '@/lib/i18n/runtime';
 import { GalleryPage } from '@/components/gallery/GalleryPage';
 
 export default async function Home({
@@ -8,12 +8,13 @@ export default async function Home({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: routeLocale } = await params;
+  const locale = resolveLocale(routeLocale);
   setRequestLocale(locale);
 
   return (
     <Suspense fallback={<GalleryFallback />}>
-      <GalleryPage locale={locale as SupportedLocale} />
+      <GalleryPage locale={locale} />
     </Suspense>
   );
 }

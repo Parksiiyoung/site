@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
 import { AboutPage } from '@/components/about/AboutPage';
-import type { SupportedLocale } from '@/types';
+import { resolveLocale } from '@/lib/i18n/runtime';
 
 export const metadata: Metadata = {
   title: 'About — Bitnaneun',
@@ -13,7 +13,8 @@ export default async function About({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: routeLocale } = await params;
+  const locale = resolveLocale(routeLocale);
   setRequestLocale(locale);
-  return <AboutPage locale={locale as SupportedLocale} />;
+  return <AboutPage locale={locale} />;
 }

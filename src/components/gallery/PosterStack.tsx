@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { getPathLocale } from '@/lib/i18n/runtime';
 import { EASE_OUT_EXPO } from '@/lib/motion';
 import type { GalleryPresentation } from '@/lib/galleryLayout';
 import { PosterArtwork } from './PosterArtwork';
@@ -57,7 +58,7 @@ export function PosterStack({ presentation, priority = false }: PosterStackProps
   const { poster } = presentation;
   const images = poster.images;
   const pathname = usePathname();
-  const locale = pathname.split('/')[1] || 'en';
+  const locale = getPathLocale(pathname);
 
   if (images.length === 0) return null;
 

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { getPathLocale } from '@/lib/i18n/runtime';
 import { EASE_OUT_EXPO } from '@/lib/motion';
 import type { Article } from '@/types';
 
@@ -32,7 +33,7 @@ function extractExcerpt(article: Article): string {
 
 export function ArticleCard({ article, priority = false }: ArticleCardProps) {
   const pathname = usePathname();
-  const locale = pathname.split('/')[1] || 'en';
+  const locale = getPathLocale(pathname);
 
   const excerpt = extractExcerpt(article);
 

@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { setRequestLocale } from 'next-intl/server';
-import type { SupportedLocale } from '@/types';
+import { resolveLocale } from '@/lib/i18n/runtime';
 import { JournalPage } from '@/components/journal/JournalPage';
 
 export default async function JournalRoute({
@@ -8,12 +8,13 @@ export default async function JournalRoute({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: routeLocale } = await params;
+  const locale = resolveLocale(routeLocale);
   setRequestLocale(locale);
 
   return (
     <Suspense fallback={<JournalFallback />}>
-      <JournalPage locale={locale as SupportedLocale} />
+      <JournalPage locale={locale} />
     </Suspense>
   );
 }

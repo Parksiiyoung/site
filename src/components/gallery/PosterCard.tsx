@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { GalleryPresentation } from '@/lib/galleryLayout';
+import { getPathLocale } from '@/lib/i18n/runtime';
 import { PosterArtwork } from './PosterArtwork';
 
 interface PosterCardProps {
@@ -22,7 +23,7 @@ const itemVariants = {
 
 export function PosterCard({ presentation, priority = false }: PosterCardProps) {
   const pathname = usePathname();
-  const locale = pathname.split('/')[1] || 'en';
+  const locale = getPathLocale(pathname);
   const { poster } = presentation;
   const image = poster.images[presentation.featuredIndex] ?? poster.images[0];
   if (!image) return null;

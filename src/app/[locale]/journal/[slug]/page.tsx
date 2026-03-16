@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { mockArticles, getArticleBySlug } from '@/lib/mock/journal';
 import { ArticlePage } from '@/components/journal/ArticlePage';
-import type { SupportedLocale } from '@/types';
+import { resolveLocale } from '@/lib/i18n/runtime';
 
 export function generateStaticParams() {
   return mockArticles.map((article) => ({
@@ -16,7 +16,8 @@ export default async function ArticleRoute({
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { locale, slug } = await params;
+  const { locale: routeLocale, slug } = await params;
+  const locale = resolveLocale(routeLocale);
   setRequestLocale(locale);
 
   const article = getArticleBySlug(slug);
@@ -24,7 +25,7 @@ export default async function ArticleRoute({
 
   return (
     <Suspense fallback={<div className="min-h-screen" />}>
-      <ArticlePage article={article} locale={locale as SupportedLocale} />
+      <ArticlePage article={article} />
     </Suspense>
   );
 }

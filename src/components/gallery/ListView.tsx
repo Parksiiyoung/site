@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { getPathLocale } from '@/lib/i18n/runtime';
 import type { Poster } from '@/types';
 
 interface ListViewProps {
@@ -51,7 +52,7 @@ function ListRow({ poster }: { poster: Poster }) {
   const [isHovered, setIsHovered] = useState(false);
   const image = poster.images[0];
   const pathname = usePathname();
-  const locale = pathname.split('/')[1] || 'en';
+  const locale = getPathLocale(pathname);
 
   return (
     <motion.div
